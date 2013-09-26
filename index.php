@@ -4,7 +4,7 @@
 <script type="text/javascript">
 var c;
 var ctx;
-var population_size = 10;
+var population_size = 50;
 var population;
 var img_width;
 var img_height;
@@ -122,30 +122,33 @@ function start(){
         mutation();
         determine_pop_fitness();
         generation++;
-        if(generation %10 == 0){
-         show();
-         alert("ok");         
+       
+        if(generation %10 == 0){    
+          alert("Evolution has begun...");
+          show();           
         }
+        
     }
     
 }
 
 function show()
-{
+{    
     var imgData=ctx.getImageData(1,1,img_width,img_height);
     for(var j = 0; j< population_size; j++){
       for(var i = 0; i < population[j].length; i++ ){
         imgData.data[i] = population[j][i];        
       }    
-      ctx.putImageData(imgData,j*(img_width+10)+1,70);
-    }
+      ctx.putImageData(imgData,(j%10)*(img_width+10)+1,Math.floor(j/10)*(img_height+10)+70);
+     }
+     
 }
 </script>
 </head>
     
 <body>
 
-<canvas id="myCanvas" width="900" height="150" style="border:1px solid #d3d3d3;">
+<canvas id="myCanvas" width="900" height="950" style="border:1px solid #d3d3d3;">
 Your browser does not support the HTML5 canvas tag.</canvas>
 
 <button onclick="start()">Start</button>
