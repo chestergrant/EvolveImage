@@ -148,7 +148,7 @@ function show()
     
 <body>
 
-<canvas id="myCanvas" width="900" height="950" style="border:1px solid #d3d3d3;">
+<canvas id="myCanvas" width="900" height="450" style="border:1px solid #d3d3d3;">
 Your browser does not support the HTML5 canvas tag.</canvas>
 
 <button onclick="start()">Start</button>
