@@ -13,6 +13,8 @@ var mutation_rate = 0.001;
 var pop_fitness =  new Array();
 var best_fitness = 10000;
 var best_idx = 0;
+var generation = 0;
+var interval_id;
 
 window.addEventListener('load', function () {
               
@@ -28,7 +30,7 @@ window.addEventListener('load', function () {
                     img_height = img.height;
                     target = ctx.getImageData(1,1,img_width,img_height);
                      var size = ctx.getImageData(1,1,img.width,img.height).data.length;
-                     create_pop(size);
+                     create_pop(size);                    
                   }
                  
               }
@@ -113,33 +115,38 @@ function perform_crossover(){
     }
     population = temp_pop;
 }
+function generate(){
+    determine_pop_fitness();      
+    perform_crossover();
+    mutation();
+    determine_pop_fitness();        
+    show(); 
+    generation++;
+    if(best_fitness <= 10){
+        clearInterval(interval_id);
+    }
+    ctx.fillStyle="#FFFFFF";
+    ctx.fillRect(200,1,900,50);
+    ctx.fillStyle="#000000";
+    ctx.fillText("Generation: "+generation,200,10);
+    ctx.fillText("Best Fitness: "+best_fitness,200,40);
+}
 
 function start(){
-    determine_pop_fitness();
-    var generation = 0;
-    while((best_fitness>10)){
-        perform_crossover();
-        mutation();
-        determine_pop_fitness();
-        generation++;
-       
-        if(generation %10 == 0){    
-          alert("Evolution has begun...");
-          show();           
-        }
-        
-    }
+   interval_id = setInterval('generate();', 10);   
     
 }
 
 function show()
 {    
+    
     var imgData=ctx.getImageData(1,1,img_width,img_height);
     for(var j = 0; j< population_size; j++){
       for(var i = 0; i < population[j].length; i++ ){
         imgData.data[i] = population[j][i];        
       }    
       ctx.putImageData(imgData,(j%10)*(img_width+10)+1,Math.floor(j/10)*(img_height+10)+70);
+      
      }
      
 }
